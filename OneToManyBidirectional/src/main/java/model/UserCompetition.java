@@ -9,18 +9,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.TableGenerator;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-@Entity
-public class Competition {
+@Entity(name = "UserCompetition")
+public class UserCompetition {
 
 	@Id
 	@TableGenerator(name = "Competition_Gen",
-			table = "one_to_many_id_gen",
+			table = "one_to_many2_id_gen",
 			pkColumnName = "GEN_NAME",
 			valueColumnName = "GEN_VALUE")
 	@GeneratedValue(generator = "Competition_Gen")
@@ -31,4 +33,8 @@ public class Competition {
 
 	@Column
 	private String competitionDescription;
+
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private User user;
 }
