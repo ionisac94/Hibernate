@@ -1,46 +1,41 @@
 package model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.TableGenerator;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 @Entity
 public class Competition {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@TableGenerator(name = "Competition_Gen",
+			table = "one_to_many_id_gen",
+			pkColumnName = "GEN_NAME",
+			valueColumnName = "GEN_VALUE")
+	@GeneratedValue(generator = "Competition_Gen")
+	@Column(name = "competitionId")
 	private Integer competitionId;
 
-	@Column(unique = true)
 	private String competitionName;
 
 	@Column
 	private String competitionDescription;
 
-	public Integer getCompetitionId() {
-		return competitionId;
-	}
-
-	public void setCompetitionId(Integer competitionId) {
-		this.competitionId = competitionId;
-	}
-
-	public String getCompetitionName() {
-		return competitionName;
-	}
-
-	public void setCompetitionName(String competitionName) {
-		this.competitionName = competitionName;
-	}
-
-	public String getCompetitionDescription() {
-		return competitionDescription;
-	}
-
-	public void setCompetitionDescription(String competitionDescription) {
-		this.competitionDescription = competitionDescription;
-	}
+	@OneToOne(cascade = CascadeType.ALL)
+	private User user;
 }

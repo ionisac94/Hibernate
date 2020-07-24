@@ -6,8 +6,8 @@ import model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Application {
 	public static void main(String[] args) {
@@ -15,77 +15,58 @@ public class Application {
 				Persistence.createEntityManagerFactory("my-persistence-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		createPost(entityManager);
-
-//		deletePost(entityManager);
-	}
-
-	private static void deletePost(EntityManager entityManager) {
-
-		entityManager.getTransaction().begin();
+		createUserAndCompetition(entityManager);
+		removeUserAndCompetition(entityManager);
+		removeCompetition(entityManager);
 
 	}
 
-	private static void createPost(EntityManager entityManager) {
+	private static void createUserAndCompetition(EntityManager entityManager) {
 
 		entityManager.getTransaction().begin();
 
-		Competition footbalCompetiotion = new Competition();
-
-		footbalCompetiotion.setCompetitionName("Fotbal Competition");
-		footbalCompetiotion.setCompetitionDescription("best fotbal competition");
-
-		Competition voleyCompetition = new Competition();
-
-		voleyCompetition.setCompetitionName("Voley Competition");
-		voleyCompetition.setCompetitionDescription("best voley competition");
-
-		Competition tenisCompetiotion = new Competition();
-
-		tenisCompetiotion.setCompetitionName("tenis Competition");
-		tenisCompetiotion.setCompetitionDescription("best tenis competition");
-
-		Competition swimingCompetition = new Competition();
-
-		swimingCompetition.setCompetitionName("swiming Competition");
-		swimingCompetition.setCompetitionDescription("best swiming competition");
-
-		Set<Competition> competitionSet = new HashSet<Competition>();
-		competitionSet.add(swimingCompetition);
-		competitionSet.add(tenisCompetiotion);
+		List<Competition> competitionUser1 = new ArrayList<>();
+		competitionUser1.add(Competition.builder().competitionName("fotbal").competitionDescription("good").build());
+		competitionUser1.add(Competition.builder().competitionName("tenis").competitionDescription("good").build());
+		competitionUser1.add(Competition.builder().competitionName("voleyball").competitionDescription("good").build());
+		competitionUser1.add(Competition.builder().competitionName("swiming").competitionDescription("good").build());
 
 
-		User user1 = new User();
-		user1.setFirstName("User1");
-		user1.setLastName("User1");
-		user1.setPassword("pass1");
-
-		user1.setManagedCompetitions(competitionSet);
-
+		User user1 = User.builder().firstName("Ion").lastName("Isac").competitions(competitionUser1).build();
 		entityManager.persist(user1);
 
 		entityManager.getTransaction().commit();
 
+		System.out.println("second transaction begin");
 
 		entityManager.getTransaction().begin();
 
-		Set<Competition> competitionSetUser2 = new HashSet<Competition>();
-		competitionSetUser2.add(footbalCompetiotion);
-		competitionSetUser2.add(voleyCompetition);
+		List<Competition> competitionUser2 = new ArrayList<>();
+		competitionUser2.add(Competition.builder().competitionName("fotbal").competitionDescription("good").build());
+		competitionUser2.add(Competition.builder().competitionName("tenis").competitionDescription("good").build());
+		competitionUser2.add(Competition.builder().competitionName("voleyball").competitionDescription("good").build());
 
-		User user2 = new User();
-		user2.setFirstName("User22");
-		user2.setLastName("User22");
-		user2.setPassword("pass22");
-
-		user2.setManagedCompetitions(competitionSetUser2);
-
-//		entityManager.remove(user1);
+		User user2 = User.builder().firstName("Gigel").lastName("Marcel").competitions(competitionUser2).build();
 		entityManager.persist(user2);
 		entityManager.getTransaction().commit();
 
-
 	}
 
+	private static void removeCompetition(EntityManager entityManager) {
 
+		entityManager.getTransaction().begin();
+		Competition competition = entityManager.find(Competition.class, 6);
+		System.out.println("Remove Competition :" + competition);
+		entityManager.remove(competition);
+		entityManager.getTransaction().commit();
+	}
+
+	private static void removeUserAndCompetition(EntityManager entityManager) {
+
+		entityManager.getTransaction().begin();
+		User user = entityManager.find(User.class, 1);
+		System.out.println("Remove User :" + user);
+		entityManager.remove(user);
+		entityManager.getTransaction().commit();
+	}
 }
