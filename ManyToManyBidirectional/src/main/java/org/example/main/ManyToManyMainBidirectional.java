@@ -8,7 +8,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class ManyToManyMainBidirectional {
 
@@ -16,9 +15,7 @@ public class ManyToManyMainBidirectional {
 
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		Map<String, Object> properties = entityManager.getProperties();
 
-		System.out.println(properties);
 //		createEmployeesAndDepartments(entityManager);
 
 //		findDepartment(entityManager);

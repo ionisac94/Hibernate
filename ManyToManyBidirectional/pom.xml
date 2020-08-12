@@ -16,19 +16,21 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
 		<lombok.version>1.18.12</lombok.version>
+		<hibernate-core>5.4.4.Final</hibernate-core>
+		<mysql-connector-java.version>8.0.18</mysql-connector-java.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.4.4.Final</version>
+			<version>${hibernate-core}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.18</version>
+			<version>${mysql-connector-java.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -64,6 +66,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>
